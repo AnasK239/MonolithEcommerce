@@ -2,8 +2,8 @@ package com.ecommerce.controller;
 
 
 import com.ecommerce.config.AppConstants;
-import com.ecommerce.payload.CategoryDTO;
-import com.ecommerce.payload.CategoryResponse;
+import com.ecommerce.dto.CategoryDTO;
+import com.ecommerce.dto.CategoryResponse;
 import com.ecommerce.service.CategoryService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -41,7 +41,8 @@ public class CategoryController {
                     required = false) String sortOrder
     ) {
         return new ResponseEntity<>(
-                categoryService.getAllCategories(pageNo , pageSize , sortBy , sortOrder) , HttpStatus.OK
+                categoryService.getAllCategories(pageNo , pageSize , sortBy , sortOrder),
+                HttpStatus.OK
         );
     }
 

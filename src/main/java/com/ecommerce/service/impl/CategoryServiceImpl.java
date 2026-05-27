@@ -1,11 +1,12 @@
-package com.ecommerce.service;
+package com.ecommerce.service.impl;
 
-import com.ecommerce.exceptions.APIException;
+import com.ecommerce.exceptions.ApiException;
 import com.ecommerce.exceptions.ResourceNotFoundException;
 import com.ecommerce.model.Category;
-import com.ecommerce.payload.CategoryDTO;
-import com.ecommerce.payload.CategoryResponse;
+import com.ecommerce.dto.CategoryDTO;
+import com.ecommerce.dto.CategoryResponse;
 import com.ecommerce.repository.CategoryRepository;
+import com.ecommerce.service.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -62,7 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
                 = categoryRepository.findByCategoryName(category.getCategoryName());
 
         if(existingCategory.isPresent()) {
-            throw new APIException(
+            throw new ApiException(
               "Category " + category.getCategoryName() + " Already exists"
             );
         }
