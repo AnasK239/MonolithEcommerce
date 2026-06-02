@@ -34,7 +34,6 @@ public class User {
     private String username;
 
     @NotBlank
-    @Size(max = 50)
     @Column(name = "password")
     private String password;
 
@@ -58,14 +57,15 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Product> products = new HashSet<>();
 
     @OneToMany(mappedBy = "user",
     cascade = CascadeType.ALL , orphanRemoval = true)
     private List<Address> addresses = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToOne(mappedBy = "user" , cascade = CascadeType.ALL , orphanRemoval = true)
+    private Cart cart;
 
 }
