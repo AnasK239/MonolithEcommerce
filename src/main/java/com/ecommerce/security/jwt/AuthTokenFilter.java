@@ -59,7 +59,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     private String parseJwt(HttpServletRequest request) {
-        String bearerToken = jwtUtils.getJwtFromHeader(request);
+        String bearerToken = jwtUtils.getJwtFromCookies(request);
         logger.debug("AuthTokenFilter.java: " + bearerToken);
         return bearerToken;
     }
