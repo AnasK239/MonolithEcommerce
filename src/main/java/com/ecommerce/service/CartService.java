@@ -2,6 +2,7 @@ package com.ecommerce.service;
 
 import com.ecommerce.dto.CartDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,5 +12,12 @@ public interface CartService {
 
     List<CartDTO> getAllCarts();
 
-    CartDTO getUserCart();
+    CartDTO getUserCart(Long cartId);
+
+    @Transactional
+    CartDTO updateCartProductQuantity(Long productId, Integer deltaQuantity);
+
+    String deleteProduct(Long cartId, Long productId);
+
+    void updateProductInCarts(Long cartId, Long productId);
 }

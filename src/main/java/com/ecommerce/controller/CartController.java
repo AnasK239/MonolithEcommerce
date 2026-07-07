@@ -42,7 +42,29 @@ public class CartController {
 
     @GetMapping("/carts/user/cart")
     public ResponseEntity<CartDTO> getCart() {
-        CartDTO cartDTO = cartService.getUserCart();
+        Cart cart = cartRepository.findCartByEmail(authUtil.loggedInEmail());
+        CartDTO cartDTO = cartService.getUserCart(cart.getCartId());
        return new ResponseEntity<>(cartDTO, HttpStatus.OK);
+    }
+
+    @PutMapping("/cart/products/{productId}/quantity/{operation}")
+    public ResponseEntity<CartDTO> updateCartProduct(
+            @PathVariable Long productId,
+            @PathVariable String operation
+    ){
+        CartDTO cartDTO = cartService.updateCartProductQuantity(productId ,
+                operation.equalsIgnoreCase("delete") ? -1 : 1);
+
+        return new ResponseEntity<>(cartDTO, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/carts/{cartId}/product/{productId}")
+    public ResponseEntity<String> deleteProductFromCart(
+            @PathVariable Long cartId,
+            @PathVariable Long productId
+    ) {
+        String status = cartService.deleteProduct(cartId , productId);
+
+        return new ResponseEntity<>(status , HttpStatus.OK);
     }
 }
