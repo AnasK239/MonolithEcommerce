@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { FaShoppingCart } from "react-icons/fa";
+import ProductViewModel from "./ProductViewModel";
 
 const ProductCard = ({
         productId,
@@ -11,14 +12,14 @@ const ProductCard = ({
         discount,
         specialPrice,
 }) => {
-    const [openProductViewModel , setOpenProductViewModel] = useState(false);
+    const [openProductViewModel , setOpenProductViewModal] = useState(false);
     const btnLoader = false;
     const [selectedViewProduct , setSelectedViewProduct] = useState("");
     const isAvailable = quantity && Number(quantity) > 0;
 
     const handleProductView = (product) =>{
         setSelectedViewProduct(product);
-        setOpenProductViewModel(true);
+        setOpenProductViewModal(true);
     };
 
     return (
@@ -93,7 +94,11 @@ const ProductCard = ({
                 </div>
 
             </div>
-
+            <ProductViewModel 
+            open = {openProductViewModel}
+            setOpen = {setOpenProductViewModal}
+            product = {selectedViewProduct}
+            isAvailable = {isAvailable}/>
         </div>
     )
 }
