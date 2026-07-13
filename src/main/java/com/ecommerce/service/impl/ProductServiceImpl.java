@@ -46,6 +46,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Value("${project.image}")
     private String path;
+
+    @Value("${image.base.url}")
+    private String imageBaseUrl;
+
     @Autowired
     private CartRepository cartRepository;
     @Autowired
@@ -198,7 +202,11 @@ public class ProductServiceImpl implements ProductService {
             throw new ResourceNotFoundException("Product list is empty");
         }
         List<ProductDTO> productDTOS = products.stream()
-                .map(prod -> modelMapper.map(prod , ProductDTO.class))
+                .map(prod -> {
+                            ProductDTO productDTO = modelMapper.map(prod , ProductDTO.class);
+                            productDTO.setImage(buildImageUrl(prod.getImage()));
+                            return productDTO;
+                })
                 .toList();
 
         ProductResponse productResponse = new ProductResponse();
@@ -210,6 +218,12 @@ public class ProductServiceImpl implements ProductService {
         productResponse.setLastPage(productsPage.isLast());
         return productResponse;
     }
+
+    private String buildImageUrl(String imageName){
+        return imageBaseUrl.endsWith("/") ? imageBaseUrl + imageName : imageBaseUrl + "/" + imageName;
+    }
+
+
 
     private double calculateSpecialPrice(double price, double discount) {
         if (price < 0) {
